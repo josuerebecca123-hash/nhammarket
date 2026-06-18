@@ -3,8 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AdCard from '../components/AddCard';
 
-export default function HomeScreen({ anuncios, usuarioSelecionado, setUsuarioSelecionado }) {
-  // Gera dinamicamente a lista de usuários únicos para o filtro [cite: 16]
+export default function HomeScreen({ anuncios, usuarioSelecionado, setUsuarioSelecionado, userEmail }) {  // Gera dinamicamente a lista de usuários únicos para o filtro [cite: 16]
   const usuariosFiltro = ['Todos', ...new Set(anuncios.map(anuncio => anuncio.usuario))];
 
   // Filtra as refeições com base na escolha do filtro no topo [cite: 15]
@@ -46,8 +45,7 @@ export default function HomeScreen({ anuncios, usuarioSelecionado, setUsuarioSel
         <FlatList
           data={anunciosFiltrados}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <AdCard item={item} />}
-        />
+renderItem={({ item }) => <AdCard item={item} userEmail={userEmail} />}        />
       )}
     </View>
   );

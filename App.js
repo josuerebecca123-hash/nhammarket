@@ -67,9 +67,10 @@ export default function App() {
         {currentScreen === 'home' && (
           <HomeScreen
             anuncios={anuncios}
-            usuarioSelecionado={usuarioSelecionado}
-            setUsuarioSelecionado={setUsuarioSelecionado}
-          />
+          usuarioSelecionado={usuarioSelecionado}
+        setUsuarioSelecionado={setUsuarioSelecionado}
+         userEmail={userEmail}
+         />
         )}
         {currentScreen === 'profile' && (
           <ProfileScreen
@@ -103,8 +104,7 @@ export default function App() {
               <FlatList
                 data={meusAnuncios}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <AdCard item={item} />}
-              />
+renderItem={({ item }) => <AdCard item={item} userEmail={userEmail} />}              />
             )}
           </View>
         )}
