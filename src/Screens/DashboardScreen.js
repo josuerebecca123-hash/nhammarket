@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AdCard from '../components/AddCard';
 
 export default function DashboardScreen({ userEmail, onLogout, onNavigateToNewAd, anuncios }) {
-  const [telaAtual, setTelaAtual] = useState('dashboard'); // 'dashboard' ou 'meusAnuncios'
+  const [telaAtual, setTelaAtual] = useState('dashboard'); 
 
   const meusAnuncios = anuncios.filter(anuncio => anuncio.usuario === userEmail);
 

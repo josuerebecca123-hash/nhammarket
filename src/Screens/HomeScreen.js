@@ -6,14 +6,12 @@ import AdCard from '../components/AddCard';
 export default function HomeScreen({ anuncios, usuarioSelecionado, setUsuarioSelecionado, userEmail }) {  // Gera dinamicamente a lista de usuários únicos para o filtro [cite: 16]
   const usuariosFiltro = ['Todos', ...new Set(anuncios.map(anuncio => anuncio.usuario))];
 
-  // Filtra as refeições com base na escolha do filtro no topo [cite: 15]
   const anunciosFiltrados = usuarioSelecionado === 'Todos'
     ? anuncios
     : anuncios.filter(anuncio => anuncio.usuario === usuarioSelecionado);
 
   return (
     <View style={styles.container}>
-      {/* 🥞 DESAFIO: FILTRO DE CHEFS NO TOPO */}
       <View style={styles.filterContainer}>
         <Text style={styles.filterTitle}>Filtrar por Chef:</Text>
         <FlatList
