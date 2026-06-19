@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { auth } from '../Config/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-
+import { estilosGlobais, Cores } from '../Styles/globalStyles';
 export default function LoginScreen({ onLoginSuccess }) {
   const [authMode, setAuthMode] = useState('login');
   const [email, setEmail] = useState('');
@@ -25,9 +25,9 @@ export default function LoginScreen({ onLoginSuccess }) {
       console.log('ERRO:', error.code, error.message);
       let msg = 'Erro ao autenticar. Tente novamente.';
       if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'E-mail ou senha incorretos.';
-      if (error.code === 'auth/invalid-email') msg = 'Formato de e-mail invalido.';
+      if (error.code === 'auth/invalid-email') msg = 'Formato de e-mail inválido.';
       if (error.code === 'auth/weak-password') msg = 'A senha precisa ter pelo menos 6 caracteres.';
-      if (error.code === 'auth/email-already-in-use') msg = 'Este e-mail ja esta cadastrado.';
+      if (error.code === 'auth/email-already-in-use') msg = 'Este e-mail já está cadastrado.';
       Alert.alert('Erro', msg);
     } finally {
       setLoading(false);
@@ -35,13 +35,13 @@ export default function LoginScreen({ onLoginSuccess }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.screenTitle}>
+    <View style={[estilosGlobais.container, { justifyContent: 'center', paddingHorizontal: 10 }]}>
+      <Text style={estilosGlobais.screenTitle}>
         {authMode === 'login' ? 'Entrar na conta' : 'Criar nova conta'}
       </Text>
 
       <TextInput
-        style={styles.input}
+        style={estilosGlobais.input}
         placeholder="E-mail"
         placeholderTextColor="#A0A0A0"
         value={email}
@@ -50,8 +50,9 @@ export default function LoginScreen({ onLoginSuccess }) {
         autoCapitalize="none"
         editable={!loading}
       />
+      
       <TextInput
-        style={styles.input}
+        style={estilosGlobais.input}
         placeholder="Senha"
         placeholderTextColor="#A0A0A0"
         value={senha}
@@ -60,25 +61,29 @@ export default function LoginScreen({ onLoginSuccess }) {
         editable={!loading}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleAuthAction} disabled={loading}>
-        {loading ? <ActivityIndicator color="#FFF" /> : <Text style={styles.buttonText}>{authMode === 'login' ? 'Entrar' : 'Cadastrar'}</Text>}
+      <TouchableOpacity 
+        style={[estilosGlobais.botaoPrincipal, { backgroundColor: Cores.primariaClara }]} 
+        onPress={handleAuthAction} 
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator color="#FFF" />
+        ) : (
+          <Text style={estilosGlobais.textoBotao}>
+            {authMode === 'login' ? 'Entrar' : 'Cadastrar'}
+          </Text>
+        )}
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.switchButton} onPress={() => setAuthMode(authMode === 'login' ? 'cadastro' : 'login')} disabled={loading}>
-        <Text style={styles.switchText}>
-          {authMode === 'login' ? 'Nao tem uma conta? Cadastre-se aqui.' : 'Ja tem uma conta? Faca o login.'}
+      <TouchableOpacity 
+        style={{ marginTop: 20, alignItems: 'center' }} 
+        onPress={() => setAuthMode(authMode === 'login' ? 'cadastro' : 'login')} 
+        disabled={loading}
+      >
+        <Text style={{ color: Cores.primariaClara, fontWeight: '600' }}>
+          {authMode === 'login' ? 'Não tem uma conta? Cadastre-se aqui.' : 'Já tem uma conta? Faça o login.'}
         </Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', paddingHorizontal: 10 },
-  screenTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 20, color: '#635a49', textAlign: 'center' },
-  input: { backgroundColor: '#FFF', borderWidth: 1, borderColor: '#f8d8a5', borderRadius: 8, padding: 12, fontSize: 16, marginBottom: 15, color: '#333' },
-  button: { backgroundColor: '#ff8482', borderRadius: 6, paddingVertical: 12, alignItems: 'center' },
-  buttonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
-  switchButton: { marginTop: 20, alignItems: 'center' },
-  switchText: { color: '#ff8482', fontWeight: '600' },
-});
